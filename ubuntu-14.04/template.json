@@ -1,0 +1,95 @@
+{
+    "variables": {
+        "version": "0.0.0",
+        "timezone": "Europe/London",
+        "locale": "en_GB.UTF-8",
+        "apt_proxy": "",
+        "apt_proxy_ssl": "",
+        "build_script_base": "yes",
+        "build_script_vagrant": "yes",
+        "build_script_virtualbox": "yes",
+        "build_script_cleanup": "yes",
+        "build_script_zerodisk": "yes",
+        "ssh_fullname": "vagrant",
+        "ssh_password": "vagrant",
+        "ssh_username": "vagrant",
+        "hostname": "vagrant",
+        "os_version": "14.04",
+        "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.5-server-amd64.iso",
+        "iso_checksum": "5e567024c385cc8f90c83d6763c6e4f1cd5deb6f",
+        "iso_checksum_type": "sha1",
+        "headless": "false",
+        "disk_size": "40960",
+        "cpuexecutioncap": "66",
+        "cpus": "2",
+        "memory": "4096"
+    },
+    "builders": [{
+        "type": "virtualbox-iso",
+        "guest_os_type": "Ubuntu_64",
+        "vm_name": "ubuntu-{{ user `os_version` }}",
+        "headless": "{{ user `headless` }}",
+        "disk_size": "{{ user `disk_size` }}",
+        "vboxmanage": [
+            [ "modifyvm", "{{ .Name }}", "--cpuexecutioncap", "{{ user `cpuexecutioncap` }}" ],
+            [ "modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpus` }}" ],
+            [ "modifyvm", "{{ .Name }}", "--memory", "{{ user `memory` }}" ]
+        ],
+        "iso_url": "{{ user `iso_url` }}",
+        "iso_checksum": "{{ user `iso_checksum` }}",
+        "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+        "http_directory": "http",
+        "boot_wait": "5s",
+        "boot_command": [
+            "<esc><wait>",
+            "<esc><wait>",
+            "<enter><wait>",
+            "/install/vmlinuz ",
+            "initrd=/install/initrd.gz ",
+            "hostname={{ user `hostname` }} ",
+            "auto-install/enable=true ",
+            "debconf/priority=critical ",
+            "passwd/user-fullname={{ user `ssh_fullname` }} ",
+            "passwd/username={{ user `ssh_username` }} ",
+            "passwd/user-password={{ user `ssh_password` }} ",
+            "passwd/user-password-again={{ user `ssh_password` }} ",
+            "passwd/root-password={{ user `ssh_password` }} ",
+            "passwd/root-password-again={{ user `ssh_password` }} ",
+            "time/zone={{ user `timezone` }} ",
+            "debian-installer/locale={{ user `locale` }} ",
+            "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-{{ user `os_version` }}/preseed.cfg ",
+            "<enter>"
+        ],
+        "ssh_wait_timeout": "60m",
+        "ssh_password": "{{ user `ssh_password` }}",
+        "ssh_username": "{{ user `ssh_username` }}",
+        "shutdown_command": "echo '{{ user `ssh_password` }}' | sudo -S shutdown -P now"
+    }],
+    "provisioners": [{
+        "type": "shell",
+        "execute_command": "echo '{{ user `ssh_password` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+        "environment_vars": [
+            "APT_PROXY={{ user `apt_proxy` }}",
+            "APT_PROXY_SSL={{ user `apt_proxy_ssl` }}",
+            "BUILD_SCRIPT_BASE={{ user `build_script_base` }}",
+            "BUILD_SCRIPT_VAGRANT={{ user `build_script_vagrant` }}",
+            "BUILD_SCRIPT_VIRTUALBOX={{ user `build_script_virtualbox` }}",
+            "BUILD_SCRIPT_CLEANUP={{ user `build_script_cleanup` }}",
+            "BUILD_SCRIPT_ZERODISK={{ user `build_script_zerodisk` }}",
+            "SSH_USERNAME={{ user `ssh_username` }}",
+            "SSH_PASSWORD={{ user `ssh_password` }}"
+        ],
+        "scripts": [
+            "ubuntu-{{ user `os_version` }}/scripts/00-base.sh",
+            "ubuntu-{{ user `os_version` }}/scripts/01-vagrant.sh",
+            "ubuntu-{{ user `os_version` }}/scripts/02-virtualbox.sh",
+            "ubuntu-{{ user `os_version` }}/scripts/03-cleanup.sh",
+            "ubuntu-{{ user `os_version` }}/scripts/04-zerodisk.sh"
+        ]
+    }],
+    "post-processors": [{
+        "type": "vagrant",
+        "output": "artifacts/ubuntu-{{ user `version` }}-{{ .Provider }}.box",
+        "keep_input_artifact": false
+    }]
+}
