@@ -25,7 +25,7 @@
     "builders": [{
         "type": "virtualbox-iso",
         "guest_os_type": "RedHat_64",
-        "vm_name": "ubuntu-{{ user `os_version` }}",
+        "vm_name": "scientific-{{ user `os_version` }}",
         "headless": "{{ user `headless` }}",
         "disk_size": "{{ user `disk_size` }}",
         "vboxmanage": [
@@ -55,6 +55,8 @@
             "BUILD_SCRIPT_VIRTUALBOX={{ user `build_script_virtualbox` }}",
             "BUILD_SCRIPT_CLEANUP={{ user `build_script_cleanup` }}",
             "BUILD_SCRIPT_ZERODISK={{ user `build_script_zerodisk` }}",
+            "BUILD_TIMEZONE={{ user `timezone` }}",
+            "BUILD_LOCALE={{ user `locale` }}",
             "SSH_USERNAME={{ user `ssh_username` }}",
             "SSH_PASSWORD={{ user `ssh_password` }}"
         ],
