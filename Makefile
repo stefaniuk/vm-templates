@@ -1,5 +1,5 @@
 OS := ubuntu
-VER := 14.04
+VER := 16.04
 
 BOX_PROVIDER := virtualbox
 BOX_NAME := $(OS)
@@ -29,6 +29,7 @@ test:
 	rm -rf artifacts/test-$(BOX_NAME)-$(BOX_VER)
 clean:
 	rm -rf artifacts/test-*
+	rm -rf artifacts/*.box
 	rm -rf output-*
 	rm -rf packer_cache
 
