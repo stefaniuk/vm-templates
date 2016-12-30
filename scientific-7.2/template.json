@@ -39,7 +39,8 @@
         "http_directory": "http",
         "boot_wait": "5s",
         "boot_command": [
-            "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/scientific-{{ user `os_version` }}/ks.cfg<enter><wait>"
+            "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/scientific-{{ user `os_version` }}/ks.cfg<enter><wait>",
+            "<wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><wait><esc>"
         ],
         "ssh_wait_timeout": "60m",
         "ssh_password": "{{ user `ssh_password` }}",
