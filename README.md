@@ -1,8 +1,8 @@
 Packer Templates
 ================
 
-Installation
-------------
+Building
+--------
 
     make build OS=ubuntu VER=14.04
 
@@ -11,8 +11,15 @@ Testing
 
     make test OS=ubuntu VER=14.04
 
-TODO
+Todo
 ----
 
- * Configure Scientific Linux
- * Provide VMware-based boxes
+* Make sure LVM partition is used
+* Configure locale and timezone in the shell script
+* Add Vagrantfile templates
+* Provide VMware-based boxes
+
+See
+---
+
+* [Boxcutter](https://github.com/boxcutter)
