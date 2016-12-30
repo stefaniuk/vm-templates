@@ -9,6 +9,9 @@ set -ex
 # fix issue with stdin
 sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile
 
+# turn off sshd DNS lookup to prevent timeout delay
+echo "UseDNS no" >> /etc/ssh/sshd_config
+
 # install packages
 apt-get --yes update
 apt-get --yes upgrade

@@ -3,8 +3,6 @@
         "version": "0.0.0",
         "timezone": "Europe/London",
         "locale": "en_GB.UTF-8",
-        "apt_proxy": "",
-        "apt_proxy_ssl": "",
         "build_script_base": "yes",
         "build_script_vagrant": "yes",
         "build_script_virtualbox": "yes",
@@ -52,8 +50,6 @@
         "type": "shell",
         "execute_command": "echo '{{ user `ssh_password` }}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
         "environment_vars": [
-            "APT_PROXY={{ user `apt_proxy` }}",
-            "APT_PROXY_SSL={{ user `apt_proxy_ssl` }}",
             "BUILD_SCRIPT_BASE={{ user `build_script_base` }}",
             "BUILD_SCRIPT_VAGRANT={{ user `build_script_vagrant` }}",
             "BUILD_SCRIPT_VIRTUALBOX={{ user `build_script_virtualbox` }}",
@@ -63,7 +59,11 @@
             "SSH_PASSWORD={{ user `ssh_password` }}"
         ],
         "scripts": [
-            "scientific-{{ user `os_version` }}/scripts/vagrant.sh"
+            "scientific-{{ user `os_version` }}/scripts/00-base.sh",
+            "scientific-{{ user `os_version` }}/scripts/01-vagrant.sh",
+            "scientific-{{ user `os_version` }}/scripts/02-virtualbox.sh",
+            "scientific-{{ user `os_version` }}/scripts/03-cleanup.sh",
+            "scientific-{{ user `os_version` }}/scripts/04-zerodisk.sh"
         ]
     }],
     "post-processors": [{
