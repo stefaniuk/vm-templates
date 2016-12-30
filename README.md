@@ -4,12 +4,12 @@ Packer Templates
 Building
 --------
 
-    make build OS=ubuntu VER=14.04
+    make build OS=ubuntu VER=16.04
 
 Testing
 -------
 
-    make test OS=ubuntu VER=14.04
+    make test OS=ubuntu VER=16.04
 
 Todo
 ----
