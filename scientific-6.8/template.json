@@ -13,7 +13,7 @@
         "ssh_username": "vagrant",
         "hostname": "vagrant",
         "os_version": "6.8",
-        "iso_url": "http://ftp1.scientificlinux.org/linux/scientific/6x/x86_64/iso/SL-68-x86_64-2016-06-29-DVD-DL.iso",
+        "iso_url": "http://ftp1.scientificlinux.org/linux/scientific/6.8/x86_64/iso/SL-68-x86_64-2016-06-29-DVD-DL.iso",
         "iso_checksum": "57373bcb6710bd6cbb8cc26dbab9a05b5dcba604",
         "iso_checksum_type": "sha1",
         "headless": "false",
