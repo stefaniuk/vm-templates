@@ -5,8 +5,14 @@ BOX_PROVIDER := virtualbox
 BOX_NAME := $(OS)
 BOX_VER := $(VER).$(shell date +%Y%m%d)
 
-help: ## Display help
-	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+help:
+	echo
+	echo "Usage:"
+	echo
+	echo "    make build|test [OS=name] [VER=number]"
+	echo "    make clean"
+	echo
 
 build:
 	packer build \
