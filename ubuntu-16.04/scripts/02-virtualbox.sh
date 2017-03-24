@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-[[ ! "$BUILD_SCRIPT_VIRTUALBOX" =~ ^(true|yes|on|1|TRUE|YES|ON])$ ]] && [ $PACKER_BUILDER_TYPE != "virtualbox" ] exit
+[[ ! "$BUILD_SCRIPT_VIRTUALBOX" =~ ^(true|yes|on|1|TRUE|YES|ON)$ ]] && [ $PACKER_BUILDER_TYPE != "virtualbox" ] exit
 
 # install guest additions
 mount -o loop /home/${SSH_USERNAME}/VBoxGuestAdditions.iso /mnt
