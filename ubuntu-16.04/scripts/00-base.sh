@@ -32,8 +32,8 @@ apt-get --yes --force-yes --ignore-missing --no-install-recommends install \
     wget
 
 # install dotfiles
-USER_NAME="unknown"
-USER_EMAIL="unknown"
+USER_NAME="vagrant"
+USER_EMAIL="vagrant@$(hostname)"
 curl -sSL https://raw.githubusercontent.com/stefaniuk/dotfiles/master/dotfiles -o - | /bin/bash -s -- \
     --directory=/home/vagrant \
     --user=vagrant \
