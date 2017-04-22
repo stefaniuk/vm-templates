@@ -12,30 +12,17 @@ sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile
 # turn off sshd DNS lookup to prevent timeout delay
 echo "UseDNS no" >> /etc/ssh/sshd_config
 
-# install packages
+# update system
 apt-get --yes update
 apt-get --yes upgrade
 apt-get --yes --force-yes --ignore-missing --no-install-recommends install \
-    ack-grep \
-    curl \
-    htop \
-    iotop \
-    lsof \
-    net-tools \
-    netcat \
     nfs-common \
-    nmap \
-    sshpass \
-    strace \
-    unzip \
-    vim \
-    wget
 
-# install dotfiles
+# install dotfiles and additional packages
 USER_NAME="vagrant"
 USER_EMAIL="vagrant@$(hostname)"
 curl -sSL https://raw.githubusercontent.com/stefaniuk/dotfiles/master/dotfiles -o - | /bin/bash -s -- \
     --directory=/home/vagrant \
     --user=vagrant \
-    --install=system-bundle \
-    --config=bash
+    --install=dependencies-bundle,system-bundle,admin-bundle \
+    --config
