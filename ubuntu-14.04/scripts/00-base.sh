@@ -15,7 +15,8 @@ echo "UseDNS no" >> /etc/ssh/sshd_config
 # update system
 apt-get --yes update
 apt-get --yes upgrade
-apt-get --yes --force-yes --ignore-missing --no-install-recommends install \
+apt-get --yes --ignore-missing --no-install-recommends install \
+    curl \
     nfs-common \
 
 # install dotfiles and additional packages
