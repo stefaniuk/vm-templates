@@ -1,5 +1,5 @@
-Packer Templates
-================
+VM Templates
+============
 
 Building
 --------
@@ -11,13 +11,10 @@ Testing
 
     make test OS=ubuntu VER=16.04
 
-Todo
+TODO
 ----
 
-* Make sure LVM partition is used
-* Configure locale and timezone in the shell script
 * Add Vagrantfile templates
-* Provide VMware-based boxes
 
 See
 ---

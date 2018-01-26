@@ -5,6 +5,6 @@ set -ex
 
 # install guest additions
 mount -o loop /home/${SSH_USERNAME}/VBoxGuestAdditions.iso /mnt
-sh /mnt/VBoxLinuxAdditions.run
+sh /mnt/VBoxLinuxAdditions.run ||:
 umount /mnt
 rm -fv /home/${SSH_USERNAME}/{VBoxGuestAdditions.iso,.vbox_version}

@@ -12,6 +12,11 @@ sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile
 # turn off sshd DNS lookup to prevent timeout delay
 echo "UseDNS no" >> /etc/ssh/sshd_config
 
+# configure locale and timezone
+locale-gen "en_GB.UTF-8"
+echo "Europe/London" | tee /etc/timezone
+dpkg-reconfigure -f noninteractive tzdata
+
 # update system
 apt-get --yes update
 apt-get --yes upgrade
@@ -25,5 +30,5 @@ USER_EMAIL="vagrant@$(hostname)"
 curl -sSL https://raw.githubusercontent.com/stefaniuk/dotfiles/master/dotfiles -o - | /bin/bash -s -- \
     --directory=/home/vagrant \
     --user=vagrant \
-    --install=dependencies-bundle,system-bundle,admin-bundle \
+    --install \
     --config
