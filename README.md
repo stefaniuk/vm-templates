@@ -15,6 +15,7 @@ TODO
 ----
 
 * Add Vagrantfile templates
+* Install VNC server
 
 See
 ---
