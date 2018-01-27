@@ -32,9 +32,7 @@ test:
 		vagrant ssh; \
 		vagrant halt
 clean:
-	cd artifacts/test-*
-	vagrant destroy -f
-	cd -
+	cd $(shell ls -d artifacts/test-*) && vagrant destroy -f
 	rm -rf artifacts/test-*
 	rm -rf artifacts/*.box
 	rm -rf output-*
