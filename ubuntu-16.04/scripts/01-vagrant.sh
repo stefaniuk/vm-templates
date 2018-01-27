@@ -14,6 +14,6 @@ chmod 600 /home/$SSH_USERNAME/.ssh/authorized_keys
 chown -R $SSH_USERNAME:$SSH_USERNAME /home/$SSH_USERNAME/.ssh
 
 # configure user
-echo 'Defaults:vagrant !requiretty' > /etc/sudoers.d/vagrant
+echo "Defaults:$SSH_USERNAME !"'requiretty' > /etc/sudoers.d/vagrant
 echo "$SSH_USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
 chmod 440 /etc/sudoers.d/vagrant

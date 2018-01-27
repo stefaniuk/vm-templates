@@ -8,6 +8,7 @@
         "build_script_base": "yes",
         "build_script_vagrant": "yes",
         "build_script_virtualbox": "yes",
+        "build_script_desktop": "no",
         "build_script_cleanup": "yes",
         "build_script_zerodisk": "yes",
         "ssh_fullname": "vagrant",
@@ -15,25 +16,36 @@
         "ssh_username": "vagrant",
         "hostname": "vagrant",
         "os_version": "16.04",
+        "os_type": "server",
         "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.3-server-amd64.iso",
         "iso_checksum": "a06cd926f5855d4f21fb4bc9978a35312f815fbda0d0ef7fdc846861f4fc4600",
         "iso_checksum_type": "sha256",
         "headless": "false",
-        "disk_size": "40960",
+        "disk_size": "32768",
         "cpuexecutioncap": "66",
         "cpus": "2",
-        "memory": "4096"
+        "memory": "2048"
     },
     "builders": [{
         "type": "virtualbox-iso",
         "guest_os_type": "Ubuntu_64",
-        "vm_name": "ubuntu-{{ user `os_version` }}",
+        "vm_name": "ubuntu-{{ user `os_version` }}-{{ user `os_type` }}",
         "headless": "{{ user `headless` }}",
         "disk_size": "{{ user `disk_size` }}",
         "vboxmanage": [
+            [ "modifyvm", "{{ .Name }}", "--firmware", "bios" ],
             [ "modifyvm", "{{ .Name }}", "--cpuexecutioncap", "{{ user `cpuexecutioncap` }}" ],
             [ "modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpus` }}" ],
-            [ "modifyvm", "{{ .Name }}", "--memory", "{{ user `memory` }}" ]
+            [ "modifyvm", "{{ .Name }}", "--memory", "{{ user `memory` }}" ],
+            [ "modifyvm", "{{ .Name }}", "--nictype1", "virtio" ],
+            [ "modifyvm", "{{ .Name }}", "--ioapic", "on" ],
+            [ "modifyvm", "{{ .Name }}", "--rtcuseutc", "on" ],
+            [ "modifyvm", "{{ .Name }}", "--vram", "64" ],
+            [ "modifyvm", "{{ .Name }}", "--accelerate3d", "on" ],
+            [ "modifyvm", "{{ .Name }}", "--usb", "on" ],
+            [ "modifyvm", "{{ .Name }}", "--usbehci", "on" ],
+            [ "modifyvm", "{{ .Name }}", "--clipboard", "bidirectional" ],
+            [ "modifyvm", "{{ .Name }}", "--draganddrop", "bidirectional" ]
         ],
         "iso_url": "{{ user `iso_url` }}",
         "iso_checksum": "{{ user `iso_checksum` }}",
@@ -65,7 +77,7 @@
             "passwd/root-password-again={{ user `ssh_password` }} ",
             "time/zone={{ user `timezone` }} ",
             "debian-installer/locale={{ user `locale` }} ",
-            "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-{{ user `os_version` }}/preseed.cfg ",
+            "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu-{{ user `os_version` }}-{{ user `os_type` }}.cfg",
             "<enter>"
         ],
         "ssh_wait_timeout": "60m",
@@ -82,6 +94,7 @@
             "BUILD_SCRIPT_BASE={{ user `build_script_base` }}",
             "BUILD_SCRIPT_VAGRANT={{ user `build_script_vagrant` }}",
             "BUILD_SCRIPT_VIRTUALBOX={{ user `build_script_virtualbox` }}",
+            "BUILD_SCRIPT_DESKTOP={{ user `build_script_desktop` }}",
             "BUILD_SCRIPT_CLEANUP={{ user `build_script_cleanup` }}",
             "BUILD_SCRIPT_ZERODISK={{ user `build_script_zerodisk` }}",
             "SSH_USERNAME={{ user `ssh_username` }}",
@@ -91,13 +104,15 @@
             "ubuntu-{{ user `os_version` }}/scripts/00-base.sh",
             "ubuntu-{{ user `os_version` }}/scripts/01-vagrant.sh",
             "ubuntu-{{ user `os_version` }}/scripts/02-virtualbox.sh",
-            "ubuntu-{{ user `os_version` }}/scripts/03-cleanup.sh",
-            "ubuntu-{{ user `os_version` }}/scripts/04-zerodisk.sh"
+            "ubuntu-{{ user `os_version` }}/scripts/03-desktop.sh",
+            "ubuntu-{{ user `os_version` }}/scripts/04-cleanup.sh",
+            "ubuntu-{{ user `os_version` }}/scripts/05-zerodisk.sh"
         ]
     }],
     "post-processors": [{
         "type": "vagrant",
-        "output": "artifacts/ubuntu-{{ user `version` }}-{{ .Provider }}.box",
+        "vagrantfile_template": "ubuntu-{{ user `os_version` }}/Vagrantfile.{{ user `os_type` }}",
+        "output": "artifacts/ubuntu-{{ user `os_version` }}-{{ user `os_type` }}-{{ user `version` }}-{{ .Provider }}.box",
         "keep_input_artifact": false
     }]
 }

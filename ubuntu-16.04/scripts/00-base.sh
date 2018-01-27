@@ -12,23 +12,18 @@ sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile
 # turn off sshd DNS lookup to prevent timeout delay
 echo "UseDNS no" >> /etc/ssh/sshd_config
 
-# configure locale and timezone
-locale-gen "en_GB.UTF-8"
-echo "Europe/London" | tee /etc/timezone
-dpkg-reconfigure -f noninteractive tzdata
-
 # update system
 apt-get --yes update
 apt-get --yes upgrade
 apt-get --yes --ignore-missing --no-install-recommends install \
     curl \
-    nfs-common \
+    nfs-common
 
 # install dotfiles and additional packages
-USER_NAME="vagrant"
-USER_EMAIL="vagrant@$(hostname)"
+USER_NAME="$SSH_USERNAME"
+USER_EMAIL="${SSH_USERNAME}@$(hostname)"
 curl -sSL https://raw.githubusercontent.com/stefaniuk/dotfiles/master/dotfiles -o - | /bin/bash -s -- \
-    --directory=/home/vagrant \
-    --user=vagrant \
+    --directory=/home/$SSH_USERNAME \
+    --user=$SSH_USERNAME \
     --install \
     --config

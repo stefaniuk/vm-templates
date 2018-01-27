@@ -1,2 +1,4 @@
+artifacts/test-*
+artifacts/*.box
 output-*
 packer_cache
