@@ -34,9 +34,9 @@ test:
 clean:
 	cd $(shell ls -d artifacts/test-*) && vagrant destroy -f
 	rm -rf artifacts/test-*
-	rm -rf artifacts/*.box
 	rm -rf output-*
 purge: clean
+	rm -rf artifacts/*.box
 	rm -rf packer_cache
 
 .SILENT:
