@@ -11,6 +11,11 @@ Testing
 
     make test OS=ubuntu VER=16.04
 
+TODO
+----
+
+* Install desktop software
+
 See
 ---
 
