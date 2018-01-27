@@ -30,10 +30,9 @@ test:
 		vagrant init $(OS); \
 		vagrant up; \
 		vagrant ssh; \
-		vagrant halt; \
-		vagrant destroy -f
-	rm -rf artifacts/test-$(OS)-$(OS_VER)
+		vagrant halt
 clean:
+	vagrant destroy -f
 	rm -rf artifacts/test-*
 	rm -rf artifacts/*.box
 	rm -rf output-*
